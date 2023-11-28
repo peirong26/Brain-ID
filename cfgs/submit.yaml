@@ -1,0 +1,36 @@
+# Number of gpus to request on each node
+num_gpus: 1
+num_workers: 1
+vram: 12GB
+# memory allocated per GPU in GB
+mem_per_gpu: 256
+# Number of nodes to request
+nodes: 1
+# Duration of the job
+timeout: 4320
+# Job dir. Leave empty for automatic.
+job_dir: ''
+# Use to run jobs locally. ('debug', 'local', 'slurm')
+cluster: debug
+# Partition. Leave empty for automatic.
+slurm_partition: ''
+# Constraint. Leave empty for automatic.
+slurm_constraint: ''
+slurm_comment: ''
+slurm_gres: ''
+slurm_exclude: ''
+cpus_per_task: 4
+
+# devices
+partition: "rtx8000" # options: {"rtx8000", "dgx-a100"} 
+shard_id: 0 # int: shard id for the current machine. Starts from 0 to num_shards - 1. If single machine is used, then set shard id to 0.
+num_shards: 1 # int: number of shards using by the job.
+init_method: "tcp://localhost:9999" # "tcp://localhost:9999" # str: initialization method to launch the job with multiple
+            # devices. Options includes TCP or shared file-system for initialization.
+            # details can be find in https://pytorch.org/docs/stable/distributed.html#tcp-initialization
+opts: # list: provide addtional options from the command line, it overwrites the config loaded from file.
+dist_backend: "nccl"
+
+rank: 0
+gpu: 0 # current gpu id
+world_size: 1 # number of distributed processes

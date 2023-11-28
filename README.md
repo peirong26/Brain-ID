@@ -1,4 +1,4 @@
-# Brain-ID: Learning Robust Feature Representations for Brain Imaging
+# [Brain-ID: Learning Robust Feature Representations for Brain Imaging]()
 
 
 <p align="center">
@@ -16,8 +16,9 @@ pip install -r requirements.txt
 <p align="center">
   <img src="./assets/data_gen.png" alt="drawing", width="850"/>
 </p>
+
 ```
-python scripts/demo_synth.py # config file in ~/BrainID/cfgs/test/demo_synth.yaml
+python scripts/demo_synth.py # config file in BrainID/cfgs/demo_synth.yaml
 ```
 
 
@@ -34,7 +35,10 @@ sbatch scripts/train.sh
 ## Evaluating on Real Data
 Use the following code to fine-tune a task-specific model on real data, using pre-trained Brain-ID weights: 
 ```
-python scripts/eval.py supv_seg.yaml
+python scripts/eval.py task_recon.yaml # for reconstruction
+# python scripts/eval.py task_seg.yaml # for segmentation
+# python scripts/eval.py task_sr.yaml # for super-resolution
+# python scripts/eval.py task_bf.yaml # for bias field estimation
 ```
 We also support Slurm submission:
 ```
@@ -44,9 +48,28 @@ sbatch scripts/eval.sh
 ## Download 
 Brain-ID pre-trained model: [Google Drive](https://drive.google.com/file/d/1Hoy243gQIWrlIuYULtd2eryk4os-cLLZ/view?usp=sharing)
 
-ADNI dataset ( cases): [Official website]()
+ADNI, ADNI3 and AIBL datasets: Request data from [official website](https://adni.loni.usc.edu/data-samples/access-data/).
 
-Segmentation labels of ADNI dataset for synthetic data simulation: [Google Drive]()
+ADHD200 dataset: Request data from [official website](https://fcon_1000.projects.nitrc.org/indi/adhd200/).
+
+HCP dataset: Request data from [official website](https://www.humanconnectome.org/study/hcp-young-adult/data-releases).
+
+OASIS3 dataset Request data from [official website](https://www.oasis-brains.org/#data).
+
+To train Brain-ID from synthetic data, one needs the segmentation labels and their corresponding MP-RAGE anatomy images. We provide our processed segmentation labels for synthetic data simulation [here](). The file names correspond to subject names in [ADNI](https://adni.loni.usc.edu/) dataset. The ground truth T1-weighted, MP-RAGE images need to be requested and downloaded from ADNI's official website as listed above.
+
+
+## Datasets
+After downloading the datasets needed, structure the data as follows:
+```
+/path/to/dataset/
+  modality_name/
+    subject_name.nii
+    ...
+  segmentation_maps/
+    subject_name.nii
+    ...
+```
 
 ## Citation
 ```bibtex

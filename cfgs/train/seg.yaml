@@ -1,0 +1,25 @@
+## job specific set ups ##
+job_name: seg
+exp_name: feat-seg 
+
+out_root: yogurt # yogurt or lemon
+  
+task: feat-seg
+dataset_name: {'train': 'synth_id', 'test': 'synth_id_deform'}
+task_f_maps: [64] 
+
+eval_only: False 
+debug: False 
+reset_epoch: False
+
+resume: False
+resume_optim: True
+ckp_path: 
+
+
+batch_size: 1
+
+mild_samples: 2
+all_samples: 4
+
+lr_drops: [70,80]

@@ -1,0 +1,180 @@
+## job specific set ups ##
+
+job_name: synth-demo
+exp_name: data_gen
+eval_only: True
+  
+out_root: yogurt # yogurt or lemon
+
+task: sr
+split: train
+dataset_name: {'train': synth_id, 'test': synth_id}
+
+
+# augmentation params
+ 
+test_itr_limit: 1  # n_subjects
+
+num_deformations: 3 # n_deformations for each subj
+all_contrasts: 3 # n_deformations for each deformation: >= 1, <= all_samples
+
+mild_samples: 2
+all_samples: 4 # n_samples within each subject
+test_mild_samples: 2
+test_all_samples: 4 # n_samples within each subject
+
+
+#### IF we want to augment the training dataset:
+
+base_generator:
+  size: [256, 256, 256]
+
+  data_augmentation: True
+  apply_deformation: True
+  nonlinear_transform: False
+  integrate_deformation_fields: False # set True to obtain inv_transform of non-linear deformation field
+
+  # below setups are effective ONLY IF data_augmentation is True:
+
+
+  apply_gamma_transform: True
+  apply_bias_field: True
+  apply_resampling: True
+  hyperfine_prob: 0.
+  apply_noises: True
+
+  #########
+  # TODOs #
+  save_pathology: False
+  pathology_prob: 0.
+  pathology_thres_max: 1.
+  pathology_mu_multi: 500.
+  pathology_sig_multi: 50.
+
+
+  noise_std_min: 0.01 # 5 # should be small if inputs are real images
+  noise_std_max: 0.1 # 15
+
+  ############################
+
+  ## synth
+  label_list_segmentation_with_csf: [0,14,15,16,24,77,85,   2, 3, 4, 7, 8, 10,11,12,13,17,18,26,28,   41,42,43,46,47,49,50,51,52,53,54,58,60]
+  n_neutral_labels_with_csf: 7
+  label_list_segmentation_without_csf: [0,14,15,16,77,85,   2, 3, 4, 7, 8, 10,11,12,13,17,18,26,28,   41,42,43,46,47,49,50,51,52,53,54,58,60]
+  n_neutral_labels_without_csf: 6
+  
+
+  ## synth_hemi
+  # without cerebellum and brainstem
+  label_list_segmentation: [0, 2, 3, 4, 10, 11, 12, 13, 17, 18, 26, 28, 77]
+  n_neutral_labels: 6
+
+  # with cerebellum and brainstem # TODO
+  label_list_segmentation_with_cb: [0, 2, 3, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 26, 28, 77]
+
+  max_surf_distance: 2.0 # clamp at plus / minus this number (both the ground truth and the prediction)
+
+  photo_prob: 0.2
+  max_rotation: 10
+  max_shear: 0.2
+  max_scaling: 0.2
+  nonlin_scale_min: 0.03
+  nonlin_scale_max: 0.06
+  nonlin_std_max: 2
+
+  bag_prob: 0.5
+  bag_scale_min: 0.02
+  bag_scale_max: 0.08
+  bf_scale_min: 0.01
+  bf_scale_max: 0.02
+  bf_std_min: 0.
+  bf_std_max: 0.1
+  gamma_std: 0.05
+  exvixo_prob: 0.25
+  exvixo_prob_vs_photo: 0.66666666666666
+  
+  pv: True
+  deform_one_hots: False # True
+  produce_surfaces: False
+  bspline_zooming: False # TODO 
+  n_steps_svf_integration: 8
+  nonlinear_transform: True
+
+
+
+#### IF we want to augment the testing dataset:
+
+
+base_test_generator:
+
+  data_augmentation: True
+  apply_deformation: True
+  nonlinear_transform: False
+  integrate_deformation_fields: False # set True to obtain inv_transform of non-linear deformation field
+
+  # below setups are effective ONLY IF data_augmentation is True:
+
+
+  apply_gamma_transform: True
+  apply_bias_field: True
+  apply_resampling: True
+  hyperfine_prob: 0.
+  apply_noises: True
+
+  #########
+  # TODOs #
+  save_pathology: False
+  pathology_prob: 0.
+  pathology_thres_max: 1.
+  pathology_mu_multi: 500.
+  pathology_sig_multi: 50.
+
+
+  noise_std_min: 0.01 # 5 # should be small if inputs are real images
+  noise_std_max: 0.1 # 15
+
+  ############################
+
+  ## synth
+  label_list_segmentation_with_csf: [0,14,15,16,24,77,85,   2, 3, 4, 7, 8, 10,11,12,13,17,18,26,28,   41,42,43,46,47,49,50,51,52,53,54,58,60]
+  n_neutral_labels_with_csf: 7
+  label_list_segmentation_without_csf: [0,14,15,16,77,85,   2, 3, 4, 7, 8, 10,11,12,13,17,18,26,28,   41,42,43,46,47,49,50,51,52,53,54,58,60]
+  n_neutral_labels_without_csf: 6
+  
+
+  ## synth_hemi
+  # without cerebellum and brainstem
+  label_list_segmentation: [0, 2, 3, 4, 10, 11, 12, 13, 17, 18, 26, 28, 77]
+  n_neutral_labels: 6
+
+  # with cerebellum and brainstem # TODO
+  label_list_segmentation_with_cb: [0, 2, 3, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 26, 28, 77]
+
+  max_surf_distance: 2.0 # clamp at plus / minus this number (both the ground truth and the prediction)
+
+  size: [128, 128, 128]
+  photo_prob: 0.2
+  max_rotation: 10
+  max_shear: 0.2
+  max_scaling: 0.2
+  nonlin_scale_min: 0.03
+  nonlin_scale_max: 0.06
+  nonlin_std_max: 2
+
+  bag_prob: 0.5
+  bag_scale_min: 0.02
+  bag_scale_max: 0.08
+  bf_scale_min: 0.01
+  bf_scale_max: 0.02
+  bf_std_min: 0.
+  bf_std_max: 0.1
+  gamma_std: 0.05
+  exvixo_prob: 0.25
+  exvixo_prob_vs_photo: 0.66666666666666
+  
+  pv: True
+  deform_one_hots: False # True
+  produce_surfaces: False
+  bspline_zooming: False # TODO 
+  n_steps_svf_integration: 8
+  nonlinear_transform: True

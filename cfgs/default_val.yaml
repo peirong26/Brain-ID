@@ -1,0 +1,126 @@
+# testing set up #
+
+
+test_pass: 1 # 1 or 2
+
+test_itr_limit: 1  # n_subjects
+test_mild_samples: 1
+test_all_samples: 1 # n_samples within each subject
+
+max_test_win_size: [220, 220, 220]
+test_win_partition: False # TODO: need to debug boundary issues
+
+
+#### IF we want to augment the testing dataset:
+
+base_test_generator:
+
+  data_augmentation: True
+
+  apply_deformation: True
+  nonlinear_transform: False
+  integrate_deformation_fields: True 
+
+  # below setups are effective ONLY IF data_augmentation is True:
+
+  apply_gamma_transform: True
+  apply_bias_field: True
+  apply_resampling: True
+  hyperfine_prob: 0.
+  apply_noises: True
+
+  #########
+  # TODOs #
+  save_pathology: False
+  pathology_prob: 0.
+  pathology_thres_max: 1.
+  pathology_mu_multi: 500.
+  pathology_sig_multi: 50.
+
+
+  noise_std_min: 0.01 # 5 # should be small if inputs are real images
+  noise_std_max: 0.1 # 15
+
+  ############################
+
+  ## synth
+  label_list_segmentation_with_csf: [0,14,15,16,24,77,85,   2, 3, 4, 7, 8, 10,11,12,13,17,18,26,28,   41,42,43,46,47,49,50,51,52,53,54,58,60]
+  n_neutral_labels_with_csf: 7
+  label_list_segmentation_without_csf: [0,14,15,16,77,85,   2, 3, 4, 7, 8, 10,11,12,13,17,18,26,28,   41,42,43,46,47,49,50,51,52,53,54,58,60]
+  n_neutral_labels_without_csf: 6
+  
+
+  ## synth_hemi
+  # without cerebellum and brainstem
+  label_list_segmentation: [0, 2, 3, 4, 10, 11, 12, 13, 17, 18, 26, 28, 77]
+  n_neutral_labels: 6
+
+  # with cerebellum and brainstem # TODO
+  label_list_segmentation_with_cb: [0, 2, 3, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 26, 28, 77]
+
+  max_surf_distance: 2.0 # clamp at plus / minus this number (both the ground truth and the prediction)
+
+  size: [128, 128, 128]
+  photo_prob: 0.2
+  max_rotation: 10
+  max_shear: 0.2
+  max_scaling: 0.2
+  nonlin_scale_min: 0.03
+  nonlin_scale_max: 0.06
+  nonlin_std_max: 2
+
+  bag_prob: 0.5
+  bag_scale_min: 0.02
+  bag_scale_max: 0.08
+  bf_scale_min: 0.01
+  bf_scale_max: 0.02
+  bf_std_min: 0.
+  bf_std_max: 0.1
+  gamma_std: 0.05
+  exvixo_prob: 0.25
+  exvixo_prob_vs_photo: 0.66666666666666
+  
+  pv: True
+  deform_one_hots: False # True
+  produce_surfaces: False
+  bspline_zooming: False # TODO 
+  n_steps_svf_integration: 8
+  nonlinear_transform: True
+
+
+#### For ID-Synth ####
+
+## mild generator set up
+mild_test_generator:   
+  bag_prob: 0.1
+  bag_scale_min: 0.01
+  bag_scale_max: 0.02
+  bf_scale_min: 0.01
+  bf_scale_max: 0.02
+  bf_std_min: 0.
+  bf_std_max: 0.02
+  gamma_std: 0.01
+  noise_std_min: 0.
+  noise_std_max: 0.02
+  exvixo_prob: 0.25
+  exvixo_prob_vs_photo: 0.66666666666666
+
+## severe generator set up
+# real data should not have too severe corruptions as synthetic data
+severe_test_generator:   
+  bag_prob: 0.5
+  bag_scale_min: 0.02
+  bag_scale_max: 0.08
+  bf_scale_min: 0.02
+  bf_scale_max: 0.04
+  bf_std_min: 0.1
+  bf_std_max: 0.6
+  gamma_std: 0.1
+  noise_std_min: 0.1
+  noise_std_max: 0.5
+  exvixo_prob: 0.25
+  exvixo_prob_vs_photo: 0.66666666666666 
+
+
+
+

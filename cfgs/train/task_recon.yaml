@@ -1,0 +1,50 @@
+## job specific set ups ##
+job_name: adni-t1
+exp_name: ft-anat
+exp_name: supv-anat
+init_method: "tcp://localhost:9992"
+
+out_root: yogurt # yogurt or lemon
+
+# ADNI     ADNI3     ADHD200       AIBL        HCP    OASIS3
+#  T1     T1,FLAIR      T1     T1,T2,FLAIR    T1,T2     CT   
+dataset: ADNI
+modality: T1
+train_subset: #0.05
+
+device:
+device_generator: #cuda:1
+
+
+task: anat
+dataset_name: {'train': 'supervised', 'test': 'synth_id_deform'}
+task_f_maps: [64] 
+
+eval_only: False 
+debug: False 
+
+resume: False
+resume_optim: True
+reset_epoch: False
+ckp_path: 
+feat_ext_ckp_path: /autofs/space/yogurt_002/users/pl629/results/finished/BrainID/feat-anat/grad/ckp/checkpoint_epoch_115.pth
+
+lr_drops: [250,300]
+
+
+batch_size: 1
+
+bias_field_prediction: False # bf output from decoder channel
+
+## losses
+losses:
+  image_grad: True
+
+
+weights: 
+  image: 1.
+  image_grad: 1. 
+
+
+log_itr: 100
+vis_itr: 10000
