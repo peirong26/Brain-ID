@@ -64,7 +64,7 @@ dataset_paths = {
 def get_dir(dataset, modality, split, task): 
     if 'synth' in dataset:
         return dataset_paths['synth'][split], None
-    else: # TODO: split train/test partition
+    else: 
         if 'seg' in task or 'bf' in task:
             return dataset_paths[dataset][modality], dataset_paths[dataset]['Seg']
         elif 'anat' in task: 

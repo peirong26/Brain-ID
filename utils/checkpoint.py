@@ -7,8 +7,6 @@ import os
 import torch
 import torch.nn as nn
 
-import pickle
-
 import distributed as du
 import utils.logging as logging
 from utils.env import checkpoint_pathmgr as pathmgr
@@ -18,7 +16,6 @@ from tabulate import tabulate
 logger = logging.get_logger(__name__)
 
 
-# Copyright (c) Facebook, Inc. and its affiliates.
 import copy
 import logging
 import re

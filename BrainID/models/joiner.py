@@ -68,7 +68,7 @@ class MultiInputIndepJoiner(nn.Module):
         return outs, [input['input'] for input in input_list]
 
 
-class MultiInputDepJoiner(nn.Module): # change name --> ContrastDependentJoiner
+class MultiInputDepJoiner(nn.Module):
     """
     Perform forward pass separately on each augmented input.
     """

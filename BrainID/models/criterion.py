@@ -6,8 +6,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from BrainID.models.losses import GradientLoss
-from BrainID.models.resnet3d.model import ResNet3D 
+from BrainID.models.losses import GradientLoss 
 
 
 class SetCriterion(nn.Module):
@@ -68,12 +67,6 @@ class SetCriterion(nn.Module):
             'supervised_seg': self.loss_supervised_seg, 
             'contrastive': self.loss_feat_contrastive, 
         }
-
-    def build_feat_extractor(self):
-        feat_extractor = ResNet3D(pretrained = True)
-        for param in feat_extractor.parameters(): # We only use ResNet3D only as a fixed feature extractor
-            param.requires_grad = False
-        return feat_extractor 
 
     def loss_feat_contrastive(self, outputs, *kwargs):
         """

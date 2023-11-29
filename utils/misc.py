@@ -1094,7 +1094,7 @@ def torch_resize(I, aff, resolution, power_factor_at_half_width=5, dtype=torch.f
     factors = np.array(I.shape[0:3]) / np.array(newsize)
     k = np.log(power_factor_at_half_width) / np.pi
     sigmas = k * factors
-    sigmas[sigmas<=k] = 0  # TODO: we could maybe remove this line, to make sure we always smooth a bit?
+    sigmas[sigmas<=k] = 0  
 
     if len(I.shape) not in (3, 4):
         raise Exception('torch_resize works with 3D or 3D+label volumes')

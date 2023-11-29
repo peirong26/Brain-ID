@@ -8,7 +8,7 @@ import torch.nn as nn
 
         
         
-class IndepHead(nn.Module): # change name --> ContrastIndependentHead
+class IndepHead(nn.Module):
     """
     Task-specific head that takes a list of sample features as inputs
     For contrast-independent tasks
@@ -39,7 +39,7 @@ class IndepHead(nn.Module): # change name --> ContrastIndependentHead
         return out
     
 
-class DepHead(nn.Module): # change name --> ContrastDependentHead
+class DepHead(nn.Module):
     """
     Task-specific head that takes a list of sample features as inputs
     For contrast-dependent tasks
@@ -74,7 +74,7 @@ class DepHead(nn.Module): # change name --> ContrastDependentHead
     
 
     
-class MultiInputDepHead(DepHead): # change name --> MultiInputContrastDependentHead
+class MultiInputDepHead(DepHead):
     """
     Task-specific head that takes a list of sample features as inputs
     For contrast-dependent tasks

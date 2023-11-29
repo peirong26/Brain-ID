@@ -1,4 +1,4 @@
-# [Brain-ID: Learning Robust Feature Representations for Brain Imaging]()
+# [Brain-ID: Learning Robust Feature Representations for Brain Imaging](http://arxiv.org/abs/2311.16914)
 
 
 <p align="center">
@@ -78,5 +78,5 @@ After downloading the datasets needed, structure the data as follows:
     title     = {Brain-ID: Learning Robust Feature Representations for Brain Imaging},
     journal   = {arXiv},
     year      = {2023},
-    volume    = {abs/},
+    volume    = {abs/2311.16914},
 }

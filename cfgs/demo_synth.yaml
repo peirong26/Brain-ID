@@ -43,8 +43,7 @@ base_generator:
   hyperfine_prob: 0.
   apply_noises: True
 
-  #########
-  # TODOs #
+  ######### 
   save_pathology: False
   pathology_prob: 0.
   pathology_thres_max: 1.
@@ -69,7 +68,7 @@ base_generator:
   label_list_segmentation: [0, 2, 3, 4, 10, 11, 12, 13, 17, 18, 26, 28, 77]
   n_neutral_labels: 6
 
-  # with cerebellum and brainstem # TODO
+  # with cerebellum and brainstem  
   label_list_segmentation_with_cb: [0, 2, 3, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 26, 28, 77]
 
   max_surf_distance: 2.0 # clamp at plus / minus this number (both the ground truth and the prediction)
@@ -96,7 +95,7 @@ base_generator:
   pv: True
   deform_one_hots: False # True
   produce_surfaces: False
-  bspline_zooming: False # TODO 
+  bspline_zooming: False  
   n_steps_svf_integration: 8
   nonlinear_transform: True
 
@@ -121,8 +120,7 @@ base_test_generator:
   hyperfine_prob: 0.
   apply_noises: True
 
-  #########
-  # TODOs #
+  ######### 
   save_pathology: False
   pathology_prob: 0.
   pathology_thres_max: 1.
@@ -147,7 +145,7 @@ base_test_generator:
   label_list_segmentation: [0, 2, 3, 4, 10, 11, 12, 13, 17, 18, 26, 28, 77]
   n_neutral_labels: 6
 
-  # with cerebellum and brainstem # TODO
+  # with cerebellum and brainstem  
   label_list_segmentation_with_cb: [0, 2, 3, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 26, 28, 77]
 
   max_surf_distance: 2.0 # clamp at plus / minus this number (both the ground truth and the prediction)
@@ -173,8 +171,8 @@ base_test_generator:
   exvixo_prob_vs_photo: 0.66666666666666
   
   pv: True
-  deform_one_hots: False # True
+  deform_one_hots: False  
   produce_surfaces: False
-  bspline_zooming: False # TODO 
+  bspline_zooming: False  
   n_steps_svf_integration: 8
   nonlinear_transform: True
