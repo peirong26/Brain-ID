@@ -107,7 +107,6 @@ class BaseVisualizer(object):
 
 
 
-
 class FeatVisualizer(BaseVisualizer):
     
     def __init__(self, args, draw_border=False):
@@ -258,15 +257,15 @@ class TaskVisualizer(BaseVisualizer):
                 curr_target = {} 
                 if not self.subject_robust:
                     for target_name in target_names:  
-                        if target_name in curr_target:
-                            curr_target[target_name] = [self.prepare_for_itk(samples[i_sample][target_name][i].data.cpu().numpy().transpose((3, 2, 1, 0))) for i_sample in range(n_samples)] 
+                        if target_name in samples[0]:
+                            curr_target[target_name] = [self.prepare_for_itk(samples[i_sample][target_name][i].data.cpu().numpy().transpose((3, 2, 1, 0))) for i_sample in range(n_samples)]
                 else:
                     for target_name in target_names:
-                        if target_name in curr_target:
+                        if target_name in subjects:
                             if 'bias_field' in target_name:
-                                curr_target[target_name] = [self.prepare_for_itk(samples[i_sample][target_name][i].data.cpu().numpy().transpose((3, 2, 1, 0))) for i_sample in range(n_samples)] 
+                                curr_target[target_name] = [self.prepare_for_itk(samples[i_sample][target_name][i].data.cpu().numpy().transpose((3, 2, 1, 0))) for i_sample in range(n_samples)]
                             else:
-                                curr_target[target_name] = self.prepare_for_itk(subjects[target_name][i].data.cpu().numpy().transpose((3, 2, 1, 0)))  # (d=1, s, r, c) -> (z, y, x, d)  
+                                curr_target[target_name] = self.prepare_for_itk(subjects[target_name][i].data.cpu().numpy().transpose((3, 2, 1, 0))) # (d=1, s, r, c) -> (z, y, x, d)  
 
                 curr_outputs = {}
                 for output_name in output_names:
@@ -277,7 +276,9 @@ class TaskVisualizer(BaseVisualizer):
                 for i_sample, curr_input in enumerate(curr_inputs):
                     target_list = [curr_input]
                     for target_name in target_names:
+                        print('target_name', target_name)
                         if target_name in curr_target:
+                            print('add target')
                             if not self.subject_robust or 'bias_field' in target_name:
                                 target_list.append(curr_target[target_name][i_sample]) 
                             else:
