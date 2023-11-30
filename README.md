@@ -30,6 +30,7 @@ python scripts/demo_synth.py
 You can customize your own data generator in `cfgs/demo_synth.yaml`.
 
 ### Playing with Brain-ID Feature Extractor
+You can input your own images, and obtain their Brain-ID features using the following code.
 ```
 import torch
 from utils.demo_utils import prepare_image, get_feature
@@ -37,8 +38,8 @@ from utils.demo_utils import prepare_image, get_feature
 img_path = '/path/to/your/test/image' 
 ckp_path = '/path/to/Brain-ID/pre-trained/weights'
 
-im = utils.prepare_image(img_path, device='cuda:0')
-feats = utils.get_feature(im, ckp_path, device='cuda:0')
+im = prepare_image(img_path, device='cuda:0')
+feats = get_feature(im, ckp_path, device='cuda:0')
 ```
 
 ## Training on Synthetic Data
