@@ -137,7 +137,8 @@ def train_one_epoch_feature(epoch, args, model, processors, criterion, data_load
             if args.visualizer.make_results:  
                 make_results(subjects, samples, outputs, out_dir = epoch_vis_dir)
 
-            visualizers['result'].visualize_all(subjects, samples, outputs, epoch_vis_dir, output_names = args.output_names, target_names = args.target_names) 
+            visualizers['result'].visualize_all(subjects, samples, outputs, epoch_vis_dir, 
+                                                output_names = args.output_names + args.aux_output_names, target_names = args.target_names) 
             if 'feature' in visualizers:
                 visualizers['feature'].visualize_all_multi(subjects, samples, outputs, epoch_vis_dir)
 
@@ -248,7 +249,8 @@ def train_one_epoch_downstream(epoch, args, feat_extractor, model, processors,
             if args.visualizer.make_results:  
                 make_results(subjects, samples, outputs, out_dir = epoch_vis_dir)
 
-            visualizers['result'].visualize_all(subjects, samples, outputs, epoch_vis_dir, output_names = args.output_names, target_names = args.target_names) 
+            visualizers['result'].visualize_all(subjects, samples, outputs, epoch_vis_dir, 
+                                                output_names = args.output_names + args.aux_output_names, target_names = args.target_names) 
             if 'feature' in visualizers:
                 visualizers['feature'].visualize_all_multi(subjects, samples, outputs, epoch_vis_dir)
 

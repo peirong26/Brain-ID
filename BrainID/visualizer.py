@@ -243,7 +243,7 @@ class TaskVisualizer(BaseVisualizer):
         out_images = {}
         for output_name in output_names:
             if output_name in outputs[0].keys(): 
-                out_images[output_name] = [x[output_name].data.cpu().numpy() for x in outputs] # n_samples * (b, d, s, r, c)  
+                out_images[output_name] = [x[output_name].data.cpu().numpy() for x in outputs] # n_samples * (b, d, s, r, c)
         
         for i, name in enumerate(names): 
             case_out_dir = make_dir(os.path.join(out_dir, name)) 
@@ -270,15 +270,13 @@ class TaskVisualizer(BaseVisualizer):
                 curr_outputs = {}
                 for output_name in output_names:
                     curr_outputs[output_name] = [self.prepare_for_itk(out_images[output_name][i_sample][i].transpose((3, 2, 1, 0))) for i_sample in range(n_samples)] # n_samples * (d, x, y, z) -> n_samples (z, y, x, d) 
-                
+
                 all_images = []
 
                 for i_sample, curr_input in enumerate(curr_inputs):
                     target_list = [curr_input]
-                    for target_name in target_names:
-                        print('target_name', target_name)
-                        if target_name in curr_target:
-                            print('add target')
+                    for target_name in target_names: 
+                        if target_name in curr_target: 
                             if not self.subject_robust or 'bias_field' in target_name:
                                 target_list.append(curr_target[target_name][i_sample]) 
                             else:

@@ -14,7 +14,7 @@ class IndepHead(nn.Module):
     For contrast-independent tasks
     """
 
-    def __init__(self, f_maps_list, out_channels, is_3d, out_feat_level = -1, *kwargs):
+    def __init__(self, args, f_maps_list, out_channels, is_3d, out_feat_level = -1, *kwargs):
         super(IndepHead, self).__init__()
         self.out_feat_level = out_feat_level
 
@@ -35,7 +35,7 @@ class IndepHead(nn.Module):
             x = layer(x)
         out = {}
         for name in self.out_names: 
-            out[name] = getattr(self, f"final_conv_{name}")(x) 
+            out[name] = getattr(self, f"final_conv_{name}")(x)
         return out
     
 
@@ -45,7 +45,7 @@ class DepHead(nn.Module):
     For contrast-dependent tasks
     """
 
-    def __init__(self, f_maps_list, out_channels, is_3d, out_feat_level = -1, *kwargs):
+    def __init__(self, args, f_maps_list, out_channels, is_3d, out_feat_level = -1, *kwargs):
         super(DepHead, self).__init__()
         self.out_feat_level = out_feat_level
 
@@ -60,7 +60,7 @@ class DepHead(nn.Module):
         conv = nn.Conv3d if is_3d else nn.Conv2d 
         self.out_names = out_channels.keys()
         for out_name, out_channels_num in out_channels.items():
-            self.add_module("final_conv_%s" % out_name, conv(f_maps_list[-1], out_channels_num, 1)) 
+            self.add_module("final_conv_%s" % out_name, conv(f_maps_list[-1], out_channels_num, 2 if args.losses.uncertainty is not None else 1)) 
 
     def forward(self, x, image):
         x = x[self.out_feat_level]
@@ -80,8 +80,8 @@ class MultiInputDepHead(DepHead):
     For contrast-dependent tasks
     """
 
-    def __init__(self, f_maps_list, out_channels, is_3d, out_feat_level = -1, *kwargs):
-        super(MultiInputDepHead, self).__init__(f_maps_list, out_channels, is_3d, out_feat_level)
+    def __init__(self, args, f_maps_list, out_channels, is_3d, out_feat_level = -1, *kwargs):
+        super(MultiInputDepHead, self).__init__(args, f_maps_list, out_channels, is_3d, out_feat_level)
 
     def forward(self, feat_list, image_list):   
         outs = []
@@ -104,8 +104,8 @@ class MultiInputIndepHead(IndepHead):
     For contrast-independent tasks
     """
 
-    def __init__(self, f_maps_list, out_channels, is_3d, out_feat_level = -1, *kwargs):
-        super(MultiInputIndepHead, self).__init__(f_maps_list, out_channels, is_3d, out_feat_level)
+    def __init__(self, args, f_maps_list, out_channels, is_3d, out_feat_level = -1, *kwargs):
+        super(MultiInputIndepHead, self).__init__(args, f_maps_list, out_channels, is_3d, out_feat_level)
 
     def forward(self, feat_list, *kwargs):   
         outs = []
@@ -148,9 +148,9 @@ class ConvBlock(nn.Module):
 def get_head(args, f_maps_list, out_channels, is_3d, out_feat_level):
     task = args.task
     if 'feat' in task:
-        return IndepHead(f_maps_list, out_channels, is_3d, out_feat_level)
+        return IndepHead(args, f_maps_list, out_channels, is_3d, out_feat_level)
     else:
         if 'sr' in task or 'bf' in task:
-            return MultiInputDepHead(f_maps_list, out_channels, is_3d, out_feat_level)
+            return MultiInputDepHead(args, f_maps_list, out_channels, is_3d, out_feat_level)
         else:
-            return MultiInputIndepHead(f_maps_list, out_channels, is_3d, out_feat_level)
+            return MultiInputIndepHead(args, f_maps_list, out_channels, is_3d, out_feat_level)

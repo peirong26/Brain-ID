@@ -42,18 +42,23 @@ def process_args(args, task = 'feat'):
 
     args.out_channels = {}
     args.output_names = []
+    args.aux_output_names = []
     args.target_names = []
     if not 'contrastive' in task:
         if 'anat' in task:
-            args.out_channels['image'] = 1
+            args.out_channels['image'] = 2 if args.losses.uncertainty is not None else 1
             args.output_names += ['image']
             args.target_names += ['image']
+            if args.losses.uncertainty is not None:
+                args.aux_output_names += ['image_sigma']
         if 'sr' in task:
-            args.out_channels['image'] = 1
+            args.out_channels['image'] = 2 if args.losses.uncertainty is not None else 1
             args.output_names += ['image']
             args.target_names += ['orig']
+            if args.losses.uncertainty is not None:
+                args.aux_output_names += ['image_sigma']
         if 'bf' in task:
-            args.out_channels['bias_field_log'] = 1
+            args.out_channels['bias_field_log'] = 2 if args.losses.uncertainty is not None else 1
             args.output_names += ['bias_field_log']
             args.target_names += ['bias_field_log']
         if 'seg' in task:

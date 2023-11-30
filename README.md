@@ -18,7 +18,8 @@ Training and evaluation environment: Python 3.11.4, PyTorch 2.0.1, CUDA 12.2. Ru
 pip install -r requirements.txt
 ```
 
-## Demo: Playing with Brain-ID Sythetic Generator
+## Demo
+### Playing with Brain-ID Sythetic Generator
 <p align="center">
   <img src="./assets/data_gen.png" alt="drawing", width="850"/>
 </p>
@@ -26,7 +27,19 @@ pip install -r requirements.txt
 ```
 python scripts/demo_synth.py
 ```
-You can customize your own generator in `cfgs/demo_synth.yaml`.
+You can customize your own data generator in `cfgs/demo_synth.yaml`.
+
+### Playing with Brain-ID Feature Extractor
+```
+import torch
+from utils.demo_utils import prepare_image, get_feature
+
+img_path = '/path/to/your/test/image' 
+ckp_path = '/path/to/Brain-ID/pre-trained/weights'
+
+im = utils.prepare_image(img_path, device='cuda:0')
+feats = utils.get_feature(im, ckp_path, device='cuda:0')
+```
 
 ## Training on Synthetic Data
 

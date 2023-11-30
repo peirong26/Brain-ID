@@ -412,6 +412,7 @@ def load_checkpoint(
     optimizer = None,
     model_keys = ['model'],
     exclude_key = None,
+    to_print = True,
 ):
     """
     Load the checkpoint from the given file.
@@ -419,7 +420,8 @@ def load_checkpoint(
     assert pathmgr.exists(path_to_checkpoint), "Checkpoint '{}' not found".format(
         path_to_checkpoint
     )
-    logger.info("Loading network weights from {}.".format(path_to_checkpoint))
+    if to_print:
+        logger.info("Loading network weights from {}.".format(path_to_checkpoint))
 
 
     # Load the checkpoint on CPU to avoid GPU mem spike.
@@ -430,8 +432,9 @@ def load_checkpoint(
                 return k
         for k in keys:
             if 'model' in k:
-                logger.info('Have not found model state_dict according to the given key, but using the "model" as key instead!')
-                return k
+                if to_print: 
+                    logger.info('Have not found model state_dict according to the given key, but using the "model" as key instead!')
+                    return k
 
 
     with pathmgr.open(path_to_checkpoint, "rb") as f:
@@ -445,7 +448,7 @@ def load_checkpoint(
         k = find_model_key(checkpoint.keys(), model_keys[i])
         pre_train_dict = checkpoint[k]
 
-        ms.load_state_dict(align_and_update_state_dicts(model_dict, pre_train_dict, exclude_key = exclude_key), strict=False)
+        ms.load_state_dict(align_and_update_state_dicts(model_dict, pre_train_dict, exclude_key = exclude_key, to_print = to_print), strict=False)
     
     if optimizer and 'optimizaer' in checkpoint:
         optimizer.load_state_dict(checkpoint['optimizer'])
@@ -531,7 +534,7 @@ def load_train_checkpoint(cfg, model, optimizer, scaler=None):
 
 # Note the current matching is not symmetric.
 # it assumes model_state_dict will have longer names.
-def align_and_update_state_dicts(model_state_dict, ckpt_state_dict, exclude_key = None):
+def align_and_update_state_dicts(model_state_dict, ckpt_state_dict, exclude_key = None, to_print = True):
     """
     Match names between the two state-dict, and returns a new chkpt_state_dict with names
     converted to match model_state_dict with heuristics. The returned dict can be later
@@ -545,7 +548,7 @@ def align_and_update_state_dicts(model_state_dict, ckpt_state_dict, exclude_key 
     ckpt_keys = sorted(ckpt_state_dict.keys())
 
     def match(a, b):
-        if a == b or a.endswith("." + b):
+        if (a == b or a.endswith("." + b)) and to_print:
             print('matched')
             print(a, '--', b)
         return a == b or a.endswith("." + b)
@@ -613,7 +616,8 @@ def align_and_update_state_dicts(model_state_dict, ckpt_state_dict, exclude_key 
                     )
                 )
                 raise ValueError("Cannot match one checkpoint key to multiple keys in the model.")
-            logger.info('Matching {} to {}'.format(key_ckpt, key_model))
+            if to_print:
+                logger.info('Matching {} to {}'.format(key_ckpt, key_model))
             matched_keys[key_ckpt] = key_model
 
     # logging:
@@ -631,7 +635,8 @@ def align_and_update_state_dicts(model_state_dict, ckpt_state_dict, exclude_key 
     table = []
     memo = set()
     for key_model in matched_model_keys:
-        print('  matched:', key_model)
+        if to_print:
+            print('  matched:', key_model)
         if key_model in memo:
             continue
         if key_model in model_key_groups:
@@ -652,12 +657,13 @@ def align_and_update_state_dicts(model_state_dict, ckpt_state_dict, exclude_key 
     table_str = tabulate(
         table, tablefmt="pipe", headers=["Names in Model", "Names in Checkpoint", "Shapes"]
     )
-    logger.info(
-        "Following weights matched with "
-        + (f"submodule {common_prefix[:-1]}" if common_prefix else "model")
-        + ":\n"
-        + table_str
-    )
+    if to_print:
+        logger.info(
+            "Following weights matched with "
+            + (f"submodule {common_prefix[:-1]}" if common_prefix else "model")
+            + ":\n"
+            + table_str
+        )
 
     unmatched_ckpt_keys = [k for k in ckpt_keys if k not in set(matched_keys.keys())]
     unmatched_model_keys = [k for k in model_keys if k not in set(matched_keys.values())]

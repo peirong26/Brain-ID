@@ -6,7 +6,10 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from BrainID.models.losses import GradientLoss 
+from BrainID.models.losses import GradientLoss, gaussian_loss, laplace_loss
+
+
+uncertainty_loss = {'gaussian': gaussian_loss, 'laplace': laplace_loss}
 
 
 class SetCriterion(nn.Module):
@@ -28,10 +31,13 @@ class SetCriterion(nn.Module):
         self.loss_names = loss_names 
  
         self.mse = nn.MSELoss()
-        self.l1 = nn.L1Loss()
+
+        self.loss_regression_type = args.losses.uncertainty if args.losses.uncertainty is not None else 'l1' 
+        self.loss_regression = uncertainty_loss[args.losses.uncertainty] if args.losses.uncertainty is not None else nn.L1Loss()
+
         self.grad = GradientLoss('l1')
 
-        self.bflog_loss = self.l1 if args.losses.bias_field_log_type == 'l1' else self.mse
+        self.bflog_loss = nn.L1Loss() if args.losses.bias_field_log_type == 'l1' else self.mse
 
         if 'contrastive' in self.loss_names:
             self.temp_alpha = args.contrastive_temperatures.alpha
@@ -103,7 +109,10 @@ class SetCriterion(nn.Module):
         return {'loss_image': loss_dist}
     
     def loss_sr(self, outputs, targets, samples):
-        loss_sr = self.l1(outputs['image'], samples['orig'])  
+        if self.loss_regression_type != 'l1':
+            loss_sr = self.loss_regression(outputs['image'], outputs['image_sigma'], samples['orig'])
+        else:
+            loss_sr = self.loss_regression(outputs['image'], samples['orig'])  
         return {'loss_sr': loss_sr}
     
     def loss_sr_grad(self, outputs, targets, samples):
@@ -111,7 +120,10 @@ class SetCriterion(nn.Module):
         return {'loss_sr_grad': loss_sr_grad}
 
     def loss_image(self, outputs, targets, *kwargs):
-        loss_image = self.l1(outputs['image'], targets['image'])
+        if self.loss_regression_type != 'l1':
+            loss_image = self.loss_regression(outputs['image'], outputs['image_sigma'], targets['image'])
+        else:
+            loss_image = self.loss_regression(outputs['image'], targets['image'])
         return {'loss_image': loss_image}
     
     def loss_image_grad(self, outputs, targets, *kwargs):

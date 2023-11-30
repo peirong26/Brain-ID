@@ -8,6 +8,19 @@ import torch.nn.functional as F
 import torch.nn as nn
 
 
+class UncertaintyProcessor(nn.Module):
+    def __init__(self, output_names):
+        super(UncertaintyProcessor, self).__init__()
+        self.output_names = output_names
+
+    def forward(self, outputs, *kwargs): 
+        for output_name in self.output_names:
+            for output in outputs:
+                output[output_name + '_sigma'] = output[output_name][:, 1][:, None]
+                output[output_name] = output[output_name][:, 0][:, None]
+        return outputs
+
+
 class SegProcessor(nn.Module):
     def __init__(self):
         super(SegProcessor, self).__init__()
@@ -41,7 +54,6 @@ class BFProcessor(nn.Module):
         for output in outputs:
             output['bias_field'] = torch.exp(output['bias_field_log'])
         return outputs
-
 
 
 ##############################################################################
@@ -95,6 +107,8 @@ class MultiInputDepJoiner(nn.Module):
 
 def get_processors(args, task, device):
     processors = []
+    if args.losses.uncertainty is not None:
+        processors.append(UncertaintyProcessor(args.output_names).to(device))
     if 'contrastive' in task:
         processors.append(ContrastiveProcessor().to(device))
     if 'seg' in task:

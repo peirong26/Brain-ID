@@ -23,7 +23,7 @@ default_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/defau
 default_data_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_dataset.yaml'
 default_val_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_val.yaml'
 submit_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/submit.yaml'
-exp_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/demo_synth.yaml'
+exp_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/test/demo_synth.yaml'
 
 
 

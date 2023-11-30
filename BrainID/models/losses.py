@@ -18,6 +18,16 @@ from pytorch3dunet.unet3d.utils import expand_as_one_hot
 
  
 
+def gaussian_loss(outputs_mu, outputs_sigma, targets):
+    variance = torch.exp(outputs_sigma)
+    minusloglhood = 0.5 * torch.log(2 * torch.pi * variance) + 0.5 * ((targets - outputs_mu) ** 2) / variance
+    return torch.mean(minusloglhood)
+
+def laplace_loss(outputs_mu, outputs_sigma, targets):
+    b = torch.exp(outputs_sigma)
+    minusloglhood = torch.log(2 * b) + torch.abs(targets - outputs_mu) / b
+    return torch.mean(minusloglhood)
+ 
 
 class NCC(nn.Module):
     """
