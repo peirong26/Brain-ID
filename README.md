@@ -17,6 +17,7 @@ Training and evaluation environment: Python 3.11.4, PyTorch 2.0.1, CUDA 12.2. Ru
 ```
 pip install -r requirements.txt
 ```
+Please also install [pytorch3dunet](https://github.com/wolny/pytorch-3dunet).
 
 ## Demo
 ### Playing with Brain-ID Sythetic Generator
