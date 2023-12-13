@@ -15,9 +15,14 @@
 ## Environment
 Training and evaluation environment: Python 3.11.4, PyTorch 2.0.1, CUDA 12.2. Run the following command to install required packages.
 ```
+conda create -n brainid python=3.11
+conda activate brainid
+
+git clone https://github.com/peirong26/Brain-ID
+cd /path/to/brain-id
 pip install -r requirements.txt
 ```
-Please also install [pytorch3dunet](https://github.com/wolny/pytorch-3dunet).
+Please also install [pytorch3dunet](https://github.com/wolny/pytorch-3dunet) according to the official instructions.
 
 ## Demo
 ### Playing with Brain-ID Sythetic Generator

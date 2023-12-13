@@ -27,10 +27,10 @@ dataset_options = {
 dataset_paths = {
     'synth': {
         'train': '/autofs/space/yogurt_001/users/pl629/data/synth',
-        'test': '/autofs/space/yogurt_001/users/pl629/data/synth/images',
+        'test': '/autofs/space/yogurt_001/users/pl629/data/synth/T1',
     },
     'ADNI': {
-        'T1': '/autofs/space/yogurt_001/users/pl629/data/synth/images',
+        'T1': '/autofs/space/yogurt_001/users/pl629/data/synth/T1',
         'Seg': '/autofs/space/yogurt_001/users/pl629/data/synth/label_maps_segmentation',
     },
     'ADNI3': {

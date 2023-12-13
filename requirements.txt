@@ -1,4 +1,4 @@
-h5py==3.7.0
+versioned-hdf5==1.6.0
 iopath==0.1.10
 matplotlib==3.7.1
 nibabel==5.2.0
@@ -14,7 +14,7 @@ seaborn==0.13.0
 setuptools==68.0.0
 SimpleITK==2.3.0
 simplejson==3.19.1
-skimage==0.0
+scikit-image==0.20.0
 tabulate==0.8.10
 torch==2.0.1
 torchvision==0.15.2

@@ -58,10 +58,10 @@ class BaseSynth(Dataset):
         self.device = device
 
         # Paths to the different subdirectories
+        self.im_dir = os.path.join(data_dir, args.modality)
         self.gen_dir = os.path.join(data_dir, 'label_maps_generation')
         self.seg_dir = os.path.join(data_dir, 'label_maps_segmentation')
         self.dist_dir = os.path.join(data_dir, 'Dmaps')
-        self.im_dir = os.path.join(data_dir, 'images')
         self.bag_dir = os.path.join(data_dir, 'DmapsBag')
         self.surface_dir = os.path.join(data_dir, 'surfaces')
 

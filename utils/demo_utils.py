@@ -33,7 +33,7 @@ def center_crop(img, win_size = [220, 220, 220]):
 
 
 def prepare_image(img_path, win_size = [220, 220, 220], device = 'cpu'):
-    im = utils.MRIread(img_path, im_only=True, dtype='float')
+    im, aff = utils.MRIread(img_path, im_only=False, dtype='float')
     im = torch.tensor(np.squeeze(im), dtype=torch.float32, device=device)
     im = torch.nan_to_num(im)
     im -= torch.min(im)
