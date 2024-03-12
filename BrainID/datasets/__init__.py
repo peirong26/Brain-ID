@@ -26,37 +26,37 @@ dataset_options = {
 
 dataset_paths = {
     'synth': {
-        'train': '/autofs/space/yogurt_001/users/pl629/data/synth',
-        'test': '/autofs/space/yogurt_001/users/pl629/data/synth/T1',
+        'train': '/path/to/data/synth',
+        'test': '/path/to/data/synth/T1',
     },
     'ADNI': {
-        'T1': '/autofs/space/yogurt_001/users/pl629/data/synth/T1',
-        'Seg': '/autofs/space/yogurt_001/users/pl629/data/synth/label_maps_segmentation',
+        'T1': '/path/to/data/synth/T1',
+        'Seg': '/path/to/data/synth/label_maps_segmentation',
     },
     'ADNI3': {
-        'T1': '/autofs/space/yogurt_004/users/pl629/ADNI3/T1',
-        'FLAIR': '/autofs/space/yogurt_004/users/pl629/ADNI3/FLAIR',
-        'Seg': '/autofs/space/yogurt_004/users/pl629/ADNI3/T1-SynthSeg',
+        'T1': '/path/to/ADNI3/T1',
+        'FLAIR': '/path/to/ADNI3/FLAIR',
+        'Seg': '/path/to/ADNI3/T1-SynthSeg',
     },
     'ADHD200': {
-        'T1': '/autofs/space/yogurt_004/users/pl629/ADHD200/T1',
-        'Seg': '/autofs/space/yogurt_004/users/pl629/ADHD200/T1-SynthSeg',
+        'T1': '/path/to/ADHD200/T1',
+        'Seg': '/path/to/ADHD200/T1-SynthSeg',
     },
     'AIBL': {
-        'T1': '/autofs/space/yogurt_004/users/pl629/AIBL/T1',
-        'T2': '/autofs/space/yogurt_004/users/pl629/AIBL/T2',
-        'FLAIR': '/autofs/space/yogurt_004/users/pl629/AIBL/FLAIR',
-        'Seg': '/autofs/space/yogurt_004/users/pl629/AIBL/T1-SynthSeg',
+        'T1': '/path/to/AIBL/T1',
+        'T2': '/path/to/AIBL/T2',
+        'FLAIR': '/path/to/AIBL/FLAIR',
+        'Seg': '/path/to/AIBL/T1-SynthSeg',
     },
     'HCP': {
-        'T1': '/autofs/space/yogurt_004/users/pl629/HCP/T1',
-        'T2': '/autofs/space/yogurt_004/users/pl629/HCP/T2',
-        'Seg': '/autofs/space/yogurt_004/users/pl629/HCP/T1-SynthSeg',
+        'T1': '/path/to/HCP/T1',
+        'T2': '/path/to/HCP/T2',
+        'Seg': '/path/to/HCP/T1-SynthSeg',
     },
     'OASIS3': {
-        'CT': '/autofs/space/yogurt_004/users/pl629/OASIS3/CT',
-        'T1': '/autofs/space/yogurt_004/users/pl629/OASIS3/T1toCT',
-        'Seg': '/autofs/space/yogurt_004/users/pl629/OASIS3/T1toCT-SynthSeg',
+        'CT': '/path/to/OASIS3/CT',
+        'T1': '/path/to/OASIS3/T1toCT',
+        'Seg': '/path/to/OASIS3/T1toCT-SynthSeg',
     },
 }
 

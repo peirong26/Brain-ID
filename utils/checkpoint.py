@@ -7,7 +7,7 @@ import os
 import torch
 import torch.nn as nn
 
-import distributed as du
+import utils.distributed as du 
 import utils.logging as logging
 from utils.env import checkpoint_pathmgr as pathmgr
 

@@ -9,9 +9,9 @@ import utils.misc as utils
 
 
 # default & gpu cfg #
-default_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_train.yaml'
-default_data_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_dataset.yaml'
-submit_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/submit.yaml'
+default_cfg_file = 'cfgs/default_train.yaml'
+default_data_file = 'cfgs/default_dataset.yaml'
+submit_cfg_file = 'cfgs/submit.yaml'
 
 
 def center_crop(img, win_size = [220, 220, 220]):
@@ -41,12 +41,12 @@ def prepare_image(img_path, win_size = [220, 220, 220], device = 'cpu'):
     im, aff = utils.torch_resize(im, aff, 1.0)
     im, aff = utils.align_volume_to_ref(im, aff, aff_ref=np.eye(4), return_aff=True, n_dims=3) 
     im, crop_start, orig_shp = center_crop(im, win_size)
-    return im
+    return im, aff
 
 
 
 @torch.no_grad()
-def get_feature(inputs, ckp_path, device = 'cpu'):
+def get_feature(inputs, ckp_path, feature_only = False, device = 'cpu'):
     # inputs: (batch_size, 1, s, r, c)
     args = utils.preprocess_cfg([default_cfg_file, default_data_file, submit_cfg_file])
 
@@ -57,4 +57,7 @@ def get_feature(inputs, ckp_path, device = 'cpu'):
     samples = [ { 'input': inputs } ]
     outputs, _ = model(samples) # dict with features
 
-    return outputs[0]['feat'][-1] # (batch_size, 64, s, r, c)
+    if feature_only:
+        return outputs[0]['feat'][-1] # (batch_size, 64, s, r, c)
+    else:
+        return outputs[0]

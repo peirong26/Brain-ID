@@ -2,14 +2,11 @@
 job_name: default
 exp_name: default
 
-## paths
-out_root: yogurt # yogurt or lemon
-root_dir_lemon: /autofs/vast/lemon/temp_stuff/peirong # mlsc run
-root_dir_yogurt_out: /autofs/space/yogurt_002/users/pl629 # desktop run
-out_dir: results/BrainID
+## paths 
+out_dir: outs/BrainID
 
 
-supervised_seg_cnn_weights: /autofs/space/yogurt_002/users/pl629/ckp/supervised_segmentation_model.pth
+supervised_seg_cnn_weights:  
 feat_ext_ckp_path:
 ckp_path:
 

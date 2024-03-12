@@ -19,11 +19,11 @@ from BrainID.datasets import build_dataset_single
 
 
 # default & gpu cfg #
-default_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_train.yaml'
-default_data_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_dataset.yaml'
-default_val_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_val.yaml'
-submit_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/submit.yaml'
-exp_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/test/demo_synth.yaml'
+default_cfg_file = 'cfgs/default_train.yaml'
+default_data_file = 'cfgs/default_dataset.yaml'
+default_val_file = 'cfgs/default_val.yaml'
+submit_cfg_file = 'cfgs/submit.yaml'
+exp_cfg_file = 'cfgs/test/demo_synth.yaml'
 
 
 

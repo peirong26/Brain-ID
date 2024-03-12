@@ -22,7 +22,7 @@ slurm_exclude: ''
 cpus_per_task: 4
 
 # devices
-partition: "rtx8000" # options: {"rtx8000", "dgx-a100"} 
+partition:   
 shard_id: 0 # int: shard id for the current machine. Starts from 0 to num_shards - 1. If single machine is used, then set shard id to 0.
 num_shards: 1 # int: number of shards using by the job.
 init_method: "tcp://localhost:9999" # "tcp://localhost:9999" # str: initialization method to launch the job with multiple

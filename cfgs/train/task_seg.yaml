@@ -2,8 +2,7 @@
 job_name: adni-t1
 exp_name: ft-seg
 init_method: "tcp://localhost:9996"
-
-out_root: yogurt # yogurt or lemon
+ 
 device_generator: #cuda:1
 
 # ADNI     ADNI3     ADHD200       AIBL        HCP    OASIS3
@@ -24,12 +23,12 @@ resume: False
 resume_optim: True
 reset_epoch: False
 ckp_path: 
-feat_ext_ckp_path: /autofs/space/yogurt_002/users/pl629/results/finished/BrainID/feat-anat/grad/ckp/checkpoint_epoch_115.pth
+feat_ext_ckp_path: assets/brainid_pretrained.pth
 
 lr_drops: [250,300]
 
 
-batch_size: 1
+batch_size: 4
 
 
 log_itr: 100

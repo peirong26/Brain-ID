@@ -2,8 +2,7 @@
 job_name: adni-t1
 exp_name: ft-bf
 init_method: "tcp://localhost:9997"
-
-out_root: yogurt # yogurt or lemon
+ 
 device: #cuda:2
 device_generator: #cuda:1
 
@@ -24,11 +23,11 @@ debug: False
 freeze_feat: False
 
 
-resume: True
+resume: False
 resume_optim: True
 reset_epoch: False
-ckp_path: /autofs/space/yogurt_002/users/pl629/results/BrainID/ft-bf/adni-t1/1116-1555/ckp/checkpoint_latest.pth
-feat_ext_ckp_path: /autofs/space/yogurt_002/users/pl629/results/BrainID/ft-bf/adni-t1/1116-1555/ckp/checkpoint_feat_latest.pth
+ckp_path: 
+feat_ext_ckp_path: assets/brainid_pretrained.pth
 
 
 
@@ -36,11 +35,7 @@ lr_drops: [250,300]
 
 
 batch_size: 1
-
-
-## losses
-losses:
-  image_grad: True
+ 
 
 
 

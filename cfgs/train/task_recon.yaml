@@ -3,8 +3,7 @@ job_name: adni-t1
 exp_name: ft-anat
 exp_name: supv-anat
 init_method: "tcp://localhost:9992"
-
-out_root: yogurt # yogurt or lemon
+ 
 
 # ADNI     ADNI3     ADHD200       AIBL        HCP    OASIS3
 #  T1     T1,FLAIR      T1     T1,T2,FLAIR    T1,T2     CT   
@@ -27,18 +26,15 @@ resume: False
 resume_optim: True
 reset_epoch: False
 ckp_path: 
-feat_ext_ckp_path: /autofs/space/yogurt_002/users/pl629/results/finished/BrainID/feat-anat/grad/ckp/checkpoint_epoch_115.pth
+feat_ext_ckp_path: assets/brainid_pretrained.pth
 
 lr_drops: [250,300]
 
 
-batch_size: 1
+batch_size: 4
 
 bias_field_prediction: False # bf output from decoder channel
 
-## losses
-losses:
-  image_grad: True
 
 
 weights: 

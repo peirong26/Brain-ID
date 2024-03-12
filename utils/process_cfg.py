@@ -14,11 +14,6 @@ def update_config(cfg, exp_name='', job_name=''):
     """
     tz_NY = pytz.timezone('America/New_York')
 
-    if 'lemon' in cfg.out_root:
-        cfg.out_dir = os.path.join(cfg.root_dir_lemon, cfg.out_dir) 
-    else:
-        cfg.out_dir = os.path.join(cfg.root_dir_yogurt_out, cfg.out_dir)
-
     cfg.vis_itr = int(cfg.vis_itr / cfg.num_gpus)
 
 
@@ -57,7 +52,7 @@ def load_config(default_cfg_file, add_cfg_files = [], cfg_dir = ''):
         if os.path.isabs(cfg_file):
             add_cfg = Config(cfg_file)
         else:
-            assert os.path.isabs(cfg_dir)
+            #assert os.path.isabs(cfg_dir)
             if not cfg_file.endswith('.yaml'):
                 cfg_file += '.yaml'
             add_cfg = Config(os.path.join(cfg_dir, cfg_file))

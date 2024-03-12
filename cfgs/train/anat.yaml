@@ -26,9 +26,6 @@ mild_samples: 2
 all_samples: 4
 
 
-## UNDER TESTING ##
-losses:
-  uncertainty: laplace # only for recon or sr (regression tasks); options: { gaussian, laplace }
 
 
 #log_itr: 20

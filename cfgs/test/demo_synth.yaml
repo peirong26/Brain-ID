@@ -2,9 +2,7 @@
 
 job_name: synth-demo
 exp_name: data_gen
-eval_only: True
-  
-out_root: yogurt # yogurt or lemon
+eval_only: True 
 
 task: sr
 split: train

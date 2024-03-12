@@ -196,8 +196,8 @@ class ContrastSpecificDataset(IDSynthEval):
             GTdef = GTdef / maxi
             if flip:
                 GTdef = torch.flip(GTdef, [0]) 
-            #utils.viewVolume(GT, names = [self.target_name + '_orig'], save_dir = '/autofs/space/yogurt_002/users/pl629/')
-            #utils.viewVolume(GTdef, names = [self.target_name], save_dir = '/autofs/space/yogurt_002/users/pl629/')
+            #utils.viewVolume(GT, names = [self.target_name + '_orig'], save_dir = '/path/to/')
+            #utils.viewVolume(GTdef, names = [self.target_name], save_dir = '/path/to/')
             if 'anat' in self.task: # subject-robust
                 return {self.target_name: GTdef[None]}, {}
             else: # sr

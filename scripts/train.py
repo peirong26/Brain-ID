@@ -32,12 +32,12 @@ logger = logging.get_logger(__name__)
 
 
 # default & gpu cfg #
-default_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_train.yaml'
-default_data_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_dataset.yaml'
-default_val_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/default_val.yaml'
-submit_cfg_file = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/submit.yaml'
+default_cfg_file = 'cfgs/default_train.yaml'
+default_data_file = 'cfgs/default_dataset.yaml'
+default_val_file = 'cfgs/default_val.yaml'
+submit_cfg_file = 'cfgs/submit.yaml'
 
-cfg_dir = '/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/train'
+cfg_dir = 'cfgs/train'
 
 
 def get_params_groups(model):

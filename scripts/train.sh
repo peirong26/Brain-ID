@@ -1,23 +1,23 @@
 #!/bin/bash
 
-#SBATCH --job-name=feat-lap
+#SBATCH --job-name=train_brain-id
 #SBATCH --gpus=1
-#SBATCH --partition=rtx8000 # dgx-a100, rtx6000, rtx8000, lcnrtx, lcnv100
+#SBATCH --partition=  
 
 #SBATCH --mail-type=FAIL
-#SBATCH --account=lcnrtx
+#SBATCH --account= 
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=256G # 256G
 #SBATCH --time=6-23:59:59
-#SBATCH --output=/autofs/space/yogurt_002/users/pl629/logs/%j.log # Standard output and error log 
+#SBATCH --output=logs/%j.log # Standard output and error log 
 
 
 # exp-specific cfg #
-exp_cfg_file=/autofs/space/yogurt_003/users/pl629/code/BrainID/cfgs/train/anat.yaml
+exp_cfg_file=cfgs/train/anat.yaml
 
 
 date;hostname;pwd
-python /autofs/space/yogurt_003/users/pl629/code/BrainID/scripts/train.py $exp_cfg_file 
+python scripts/train.py $exp_cfg_file 
 date
