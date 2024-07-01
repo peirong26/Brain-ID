@@ -4,9 +4,6 @@ import torch
 from torch import nn as nn
 from torch.nn import functional as F
 
-from .se import ChannelSELayer3D, ChannelSpatialSELayer3D, SpatialSELayer3D
-
-
 def create_conv(in_channels, out_channels, kernel_size, order, num_groups, padding, is3d):
     """
     Create a list of modules with together constitute a single conv layer with non-linearity
@@ -153,75 +150,6 @@ class DoubleConv(nn.Sequential):
                                    padding=padding, is3d=is3d))
 
 
-class ResNetBlock(nn.Module):
-    """
-    Residual block that can be used instead of standard DoubleConv in the Encoder module.
-    Motivated by: https://arxiv.org/pdf/1706.00120.pdf
-
-    Notice we use ELU instead of ReLU (order='cge') and put non-linearity after the groupnorm.
-    """
-
-    def __init__(self, in_channels, out_channels, kernel_size=3, order='cge', num_groups=8, is3d=True, **kwargs):
-        super(ResNetBlock, self).__init__()
-
-        if in_channels != out_channels:
-            # conv1x1 for increasing the number of channels
-            if is3d:
-                self.conv1 = nn.Conv3d(in_channels, out_channels, 1)
-            else:
-                self.conv1 = nn.Conv2d(in_channels, out_channels, 1)
-        else:
-            self.conv1 = nn.Identity()
-
-        # residual block
-        self.conv2 = SingleConv(out_channels, out_channels, kernel_size=kernel_size, order=order, num_groups=num_groups,
-                                is3d=is3d)
-        # remove non-linearity from the 3rd convolution since it's going to be applied after adding the residual
-        n_order = order
-        for c in 'rel':
-            n_order = n_order.replace(c, '')
-        self.conv3 = SingleConv(out_channels, out_channels, kernel_size=kernel_size, order=n_order,
-                                num_groups=num_groups, is3d=is3d)
-
-        # create non-linearity separately
-        if 'l' in order:
-            self.non_linearity = nn.LeakyReLU(negative_slope=0.1, inplace=True)
-        elif 'e' in order:
-            self.non_linearity = nn.ELU(inplace=True)
-        else:
-            self.non_linearity = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        # apply first convolution to bring the number of channels to out_channels
-        residual = self.conv1(x)
-
-        # residual block
-        out = self.conv2(residual)
-        out = self.conv3(out)
-
-        out += residual
-        out = self.non_linearity(out)
-
-        return out
-
-
-class ResNetBlockSE(ResNetBlock):
-    def __init__(self, in_channels, out_channels, kernel_size=3, order='cge', num_groups=8, se_module='scse', **kwargs):
-        super(ResNetBlockSE, self).__init__(
-            in_channels, out_channels, kernel_size=kernel_size, order=order,
-            num_groups=num_groups, **kwargs)
-        assert se_module in ['scse', 'cse', 'sse']
-        if se_module == 'scse':
-            self.se_module = ChannelSpatialSELayer3D(num_channels=out_channels, reduction_ratio=1)
-        elif se_module == 'cse':
-            self.se_module = ChannelSELayer3D(num_channels=out_channels, reduction_ratio=1)
-        elif se_module == 'sse':
-            self.se_module = SpatialSELayer3D(num_channels=out_channels)
-
-    def forward(self, x):
-        out = super().forward(x)
-        out = self.se_module(out)
-        return out
 
 
 class Encoder(nn.Module):

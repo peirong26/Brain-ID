@@ -1,6 +1,7 @@
 import torch.nn as nn
+import torch.nn.functional as F
 
-from .buildingblocks import DoubleConv, ResNetBlock, ResNetBlockSE, create_decoders, create_encoders
+from .buildingblocks import DoubleConv, create_decoders, create_encoders
 from .utils import get_class, number_of_features_per_level
 
 
@@ -36,7 +37,7 @@ class AbstractUNet(nn.Module):
 
     def __init__(self, in_channels, basic_module, f_maps=64, layer_order='gcr',
                  num_groups=8, num_levels=4, conv_kernel_size=3, pool_kernel_size=2,
-                 conv_padding=1, is_3d=True):
+                 conv_padding=1, is_unit_vector = False, is_3d=True):
         super(AbstractUNet, self).__init__()
 
         if isinstance(f_maps, int):
@@ -57,6 +58,8 @@ class AbstractUNet(nn.Module):
         self.decoders = create_decoders(self.f_maps, basic_module, conv_kernel_size, conv_padding, layer_order, num_groups,
                                         is_3d)
 
+        self.is_unit_vector = is_unit_vector
+
     def forward(self, x):
         # encoder part
         encoders_features = []
@@ -74,6 +77,9 @@ class AbstractUNet(nn.Module):
             # pass the output from the corresponding encoder and the output
             # of the previous decoder
             x = decoder(encoder_features, x)
+        
+        if self.is_unit_vector:
+            x = F.normalize(x, dim=1)
 
         return x 
     
@@ -89,6 +95,8 @@ class AbstractUNet(nn.Module):
         for decoder, encoder_features in zip(self.decoders, encoders_features):
             x = decoder(encoder_features, x)
             decoders_features.append(x) 
+        if self.is_unit_vector:
+            decoders_features[-1] = F.normalize(decoders_features[-1], dim=1)
         return decoders_features
 
 
@@ -102,60 +110,19 @@ class UNet3D(AbstractUNet):
     Uses `DoubleConv` as a basic_module and nearest neighbor upsampling in the decoder
     """
 
-    def __init__(self, args, in_channels, f_maps, conv_padding=1, **kwargs):
+    def __init__(self, in_channels, f_maps, layer_order='gcl', num_groups=8, num_levels=5, is_unit_vector=False, conv_padding=1, **kwargs):
 
         super(UNet3D, self).__init__(in_channels=in_channels,
                                      basic_module=DoubleConv,
                                      f_maps=f_maps,
-                                     layer_order=args.layer_order,
-                                     num_groups=args.num_groups,
-                                     num_levels=args.num_levels,
+                                     layer_order=layer_order,
+                                     num_groups=num_groups,
+                                     num_levels=num_levels,
+                                     is_unit_vector=is_unit_vector,
                                      conv_padding=conv_padding,
                                      is_3d=True) 
 
     
-
-class ResidualUNet3D(AbstractUNet):
-    """
-    Residual 3DUnet model implementation based on https://arxiv.org/pdf/1706.00120.pdf.
-    Uses ResNetBlock as a basic building block, summation joining instead
-    of concatenation joining and transposed convolutions for upsampling (watch out for block artifacts).
-    Since the model effectively becomes a residual net, in theory it allows for deeper UNet.
-    """
-    
-    def __init__(self, args, in_channels, f_maps, conv_padding=1, **kwargs):
-
-        super(ResidualUNet3D, self).__init__(in_channels=in_channels,
-                                     basic_module=ResNetBlock,
-                                     f_maps=f_maps,
-                                     layer_order=args.layer_order,
-                                     num_groups=args.num_groups,
-                                     num_levels=args.num_levels,
-                                     conv_padding=conv_padding,
-                                     is_3d=True)
-
-
-class ResidualUNetSE3D(AbstractUNet):
-    """_summary_
-    Residual 3DUnet model implementation with squeeze and excitation based on 
-    https://arxiv.org/pdf/1706.00120.pdf.
-    Uses ResNetBlockSE as a basic building block, summation joining instead
-    of concatenation joining and transposed convolutions for upsampling (watch
-    out for block artifacts). Since the model effectively becomes a residual
-    net, in theory it allows for deeper UNet.
-    """
-
-    def __init__(self, args, in_channels, f_maps, conv_padding=1, **kwargs):
-
-        super(ResidualUNetSE3D, self).__init__(in_channels=in_channels,
-                                     basic_module=ResNetBlockSE,
-                                     f_maps=f_maps,
-                                     layer_order=args.layer_order,
-                                     num_groups=args.num_groups,
-                                     num_levels=args.num_levels,
-                                     conv_padding=conv_padding,
-                                     is_3d=True)
-        
 
 class UNet2D(AbstractUNet):
     """

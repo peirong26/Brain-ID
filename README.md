@@ -1,12 +1,10 @@
-## <p align="center">[Brain-ID: Learning Contrast-agnostic Anatomical Representations for Brain Imaging](http://arxiv.org/abs/2311.16914)</p>
+## <p align="center">[[ECCV 2024] Brain-ID: Learning Contrast-agnostic Anatomical Representations for Brain Imaging](http://arxiv.org/abs/2311.16914)</p>
 
-**<p align="center">Peirong Liu<sup>1</sup>, Oula Puonti<sup>1,2</sup>, Xiaoling Hu<sup>1</sup>, Daniel C. Alexander<sup>3</sup>, Juan Eugenio Iglesias<sup>1,3,4</sup></p>**
+**<p align="center">Peirong Liu<sup>1</sup>, Oula Puonti<sup>1</sup>, Xiaoling Hu<sup>1</sup>, Daniel C. Alexander<sup>2</sup>, Juan Eugenio Iglesias<sup>1,2,3</sup></p>**
 
 <p align="center">
-<sup>1</sup> Athinoula A. Martinos Center for Biomedical Imaging, Harvard Medical School and Massachusetts General Hospital, Boston, USA <br />
-<sup>2</sup> Danish Research Centre for Magnetic Resonance, Centre for Functional and Diagnostic Imaging and Research, Copenhagen University Hospital - Amager and Hvidovre, Copenhagen, Denmark <br />
-<sup>3</sup> Centre for Medical Image Computing, University College London, London, UK <br />
-<sup>4</sup> Computer Science and Artificial Intelligence Laboratory, Massachusetts Institute of Technology, Cambridge, USA
+<sup>1</sup>Harvard Medical School and Massachusetts General Hospital<br />
+<sup>2</sup>University College London &nbsp;&nbsp; <sup>3</sup>Massachusetts Institute of Technology
 </p>
 
 <p align="center">
@@ -23,12 +21,6 @@ conda activate brainid
 git clone https://github.com/peirong26/Brain-ID
 cd /path/to/brain-id
 pip install -r requirements.txt
-```
-Please also install [pytorch3dunet](https://github.com/wolny/pytorch-3dunet) according to the official instructions:
-```
-wget https://github.com/wolny/pytorch-3dunet
-cd /path/to/pytorch-3dunet
-python setup.py install
 ```
 
 
@@ -161,7 +153,6 @@ After downloading the datasets needed, structure the data as follows, and set up
 @InProceedings{Liu_2023_BrainID,
     author    = {Liu, Peirong and Puonti, Oula and Hu, Xiaoling and Alexander, Daniel C. and Iglesias, Juan E.},
     title     = {Brain-ID: Learning Contrast-agnostic Anatomical Representations for Brain Imaging},
-    journal   = {arXiv},
-    year      = {2023},
-    volume    = {abs/2311.16914},
+    booktitle = {European Conference on Computer Vision (ECCV)},
+    year      = {2024},
 }
