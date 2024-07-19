@@ -40,7 +40,7 @@ You could customize your own data generator in `cfgs/demo_synth.yaml`.
 
 ### Playing with Brain-ID Synthesizer and Feature Extractor
 
-Please download Brain-ID pre-trained weights (brainid_pretrained.pth), and test images (T1w.nii.gz, FLAIR.nii.gz) in this [Google Drive folder](https://drive.google.com/drive/folders/1vuNu2dt-YdBCRW1E4gJtUsi0b_BcX6S_?usp=sharing), and move them into the './assets' folder.
+Please download Brain-ID pre-trained weights (brain_id_pretrained.pth), and test images (T1w.nii.gz, FLAIR.nii.gz) in this [Google Drive folder](https://drive.google.com/drive/folders/1vuNu2dt-YdBCRW1E4gJtUsi0b_BcX6S_?usp=sharing), and move them into the './assets' folder.
 
 Obtain Brain-ID synthesized MP-RAGE & features using the following code:
 ```python3
@@ -49,7 +49,7 @@ from utils.demo_utils import prepare_image, get_feature
 from utils.misc import viewVolume, make_dir
 
 img_path = 'assets/T1w.nii.gz' # Try: assets/T1w.nii.gz, assets/FLAIR.nii.gz
-ckp_path = 'assets/brainid_pretrained.pth'
+ckp_path = 'assets/brain_id_pretrained.pth'
 
 
 im, aff = prepare_image(img_path, device = 'cuda:0')
