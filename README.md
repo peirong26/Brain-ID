@@ -12,6 +12,11 @@
 </p>
 
 
+## News
+
+[06/17/2024] Check out our newest MICCAI2024 work [here](https://github.com/peirong26/PEPSI) on a contrastic-agnosic model for images with abnormalities with pathology-encoded modeling.
+
+
 ## Environment
 Training and evaluation environment: Python 3.11.4, PyTorch 2.0.1, CUDA 12.2. Run the following command to install required packages.
 ```
@@ -121,7 +126,9 @@ The argument `task_recon.yaml` configures the task (anatomy reconstruction) we a
 
 - OASIS3 dataset Request data from [official website](https://www.oasis-brains.org/#data).
 
-- Segmentation labels for data simulation: To train a Brain-ID feature representation model of your own from scratch, one needs the segmentation labels for synthetic image simulation and their corresponding MP-RAGE images for anatomy supervision. We provide our processed segmentation labels for synthetic data simulation [here](https://drive.google.com/drive/folders/1PTr-gp7RD-4CzbzgRF0ZVLnAEFLAd29U?usp=sharing). The file names correspond to subject names in [ADNI](https://adni.loni.usc.edu/) dataset. The ground truth T1-weighted, MP-RAGE images need to be requested and downloaded from ADNI's official website as listed above.
+- Segmentation labels for data simulation: To train a Brain-ID feature representation model of your own from scratch, one needs the segmentation labels for synthetic image simulation and their corresponding MP-RAGE (T1w) images for anatomy supervision. Please refer to the pre-processing steps in `preprocess/generation_labels.py`.
+
+For obtaining the anatomy generation labels, we rely on [FreeSurfer](https://surfer.nmr.mgh.harvard.edu/). Please install FreeSurfer first and activate the environment before running `preprocess/generation_labels.py`.
 
 
 ## Datasets
@@ -143,7 +150,11 @@ After downloading the datasets needed, structure the data as follows, and set up
   or_any_other_modality_you_have/
     subject_name.nii
     ...
-  segmentation_maps/
+    
+  label_maps_segmentation/
+    subject_name.nii
+    ...
+  label_maps_generation/
     subject_name.nii
     ...
 ```
