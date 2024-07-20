@@ -1354,3 +1354,25 @@ def has_batchnorms(model):
         if isinstance(module, bn_types):
             return True
     return False
+
+
+
+###############################
+
+# map SynthSeg right to left labels for contrast synthesis
+right_to_left_dict = {
+    41: 2,
+    42: 3,
+    43: 4,
+    44: 5,
+    46: 7,
+    47: 8,
+    49: 10,
+    50: 11,
+    51: 12,
+    52: 13,
+    53: 17,
+    54: 18,
+    58: 26,
+    60: 28
+}
