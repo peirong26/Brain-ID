@@ -56,9 +56,9 @@ for i, name in enumerate(subjs):
             utils.MRIwrite(img, aff, os.path.join(img_strip_save_dir, basename + '.nii'))
 
         if not os.path.isfile(os.path.join(synthseg_save_dir, basename + '.nii')):
-            print('  synthseg-ing')
-            os.system('mri_synthseg' + ' --i ' + os.path.join(synthsr_save_dir, basename + '.nii') + ' --o ' + os.path.join(synthseg_save_dir, basename + '.nii'))
-        
+            print('  synthseg-ing & resampling')
+            os.system('mri_synthseg' + ' --i ' + os.path.join(img_strip_save_dir, basename + '.nii') + ' --o ' + os.path.join(synthseg_save_dir, basename + '.nii' + ' --resample ' + os.path.join(img_strip_save_dir, basename + '.nii')))
+
         if not os.path.isfile(os.path.join(gen_save_dir, basename + '.nii')):
             print('  genseg-ing')
             im, aff = utils.MRIread(os.path.join(synthseg_save_dir, basename + '.nii'), im_only=False, dtype='float')
