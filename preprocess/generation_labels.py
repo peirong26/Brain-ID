@@ -39,28 +39,29 @@ subjs = os.listdir(img_dir)
 subjs.sort()
 
 for i, name in enumerate(subjs): 
-    if name.startswith('sub-') and name.endswith('.nii'):
+    if name.startswith('sub-') and (name.endswith('.nii') or name.endswith('.nii.gz')):
+        basename = name.split('.')[0]
         print('Now processing: %s (%d/%d)' % (name, i+1, len(subjs)))
 
-        if not os.path.isfile(os.path.join(synthsr_save_dir, name + '.nii')):
+        if not os.path.isfile(os.path.join(synthsr_save_dir, basename + '.nii')):
             print('  synthsr-ing')
-            os.system('mri_synthsr' + ' --i ' + os.path.join(img_dir, name + '.nii') + ' --o ' + os.path.join(synthsr_save_dir, name + '.nii'))
+            os.system('mri_synthsr' + ' --i ' + os.path.join(img_dir, name) + ' --o ' + os.path.join(synthsr_save_dir, basename + '.nii'))
 
-        if not os.path.isfile(os.path.join(img_strip_save_dir, name + '.nii')):
+        if not os.path.isfile(os.path.join(img_strip_save_dir, basename + '.nii')):
             print('  synthstrip-ing')
-            os.system('mri_synthstrip' + ' -i ' + os.path.join(synthsr_save_dir, name + '.nii') + ' -o ' + os.path.join(synthstrip_save_dir, name + '.nii') + ' -m ' + os.path.join(mask_save_dir, name + '.nii'))
-            mask, aff = utils.MRIread(os.path.join(mask_save_dir, name + '.nii'))
-            img, aff = utils.MRIread(os.path.join(img_dir, name + '.nii'))
+            os.system('mri_synthstrip' + ' -i ' + os.path.join(synthsr_save_dir, basename + '.nii') + ' -o ' + os.path.join(synthstrip_save_dir, basename + '.nii') + ' -m ' + os.path.join(mask_save_dir, basename + '.nii'))
+            mask, aff = utils.MRIread(os.path.join(mask_save_dir, basename + '.nii'))
+            img, aff = utils.MRIread(os.path.join(img_dir, name))
             img *= mask # skull-stripping
-            utils.MRIwrite(img, aff, os.path.join(img_strip_save_dir, name + '.nii'))
+            utils.MRIwrite(img, aff, os.path.join(img_strip_save_dir, basename + '.nii'))
 
-        if not os.path.isfile(os.path.join(synthseg_save_dir, name + '.nii')):
+        if not os.path.isfile(os.path.join(synthseg_save_dir, basename + '.nii')):
             print('  synthseg-ing')
-            os.system('mri_synthseg' + ' --i ' + os.path.join(synthsr_save_dir, name + '.nii') + ' --o ' + os.path.join(synthseg_save_dir, name + '.nii'))
+            os.system('mri_synthseg' + ' --i ' + os.path.join(synthsr_save_dir, basename + '.nii') + ' --o ' + os.path.join(synthseg_save_dir, basename + '.nii'))
         
-        if not os.path.isfile(os.path.join(gen_save_dir, name + '.nii')):
+        if not os.path.isfile(os.path.join(gen_save_dir, basename + '.nii')):
             print('  genseg-ing')
-            im, aff = utils.MRIread(os.path.join(synthseg_save_dir, name + '.nii'), im_only=False, dtype='float')
+            im, aff = utils.MRIread(os.path.join(synthseg_save_dir, basename + '.nii'), im_only=False, dtype='float')
             for l in utils.right_to_left_dict.keys():
                 im[im==l] = utils.right_to_left_dict[l]
-            utils.MRIwrite(im, aff, os.path.join(gen_save_dir, name + '.nii'))
+            utils.MRIwrite(im, aff, os.path.join(gen_save_dir, basename + '.nii'))
