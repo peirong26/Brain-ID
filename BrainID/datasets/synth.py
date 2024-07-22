@@ -96,7 +96,7 @@ class BaseSynth(Dataset):
         
         # Get resolution of training data
         aff = nib.load(self.names[0]).affine
-        self.res_training_data = np.sqrt(np.sum(aff[:-1, :-1], axis=0))
+        self.res_training_data = nib.affines.voxel_sizes(aff)
 
         # prepare grid
         print('Preparing grid...')
@@ -516,5 +516,3 @@ class BaseSynth(Dataset):
         else:
             return {'name': os.path.basename(self.names[idx]).split('.nii')[0]}, self.process_sample(photo_mode, spac, thickness, resolution, flip, mus, sigmas, G, S, D, I, PTH, [xx2, yy2, zz2],
                                             self.gamma_std, self.bf_scale_min, self.bf_scale_max, self.bf_std_min, self.bf_std_max, self.noise_std_min, self.noise_std_max)
-
-
