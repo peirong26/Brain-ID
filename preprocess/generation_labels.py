@@ -2,10 +2,9 @@
 Data preprocessing for Brain-ID training
 
 Steps
-1) SynthSR: map to a T1 contrast for better Skull-stripping performance;
-2) SynthStrip: skull-stripping; saving the stripped T1 as the supervision ground truth;
-3) SynthSeg: get segmentation labels;
-4) Merge left & right labels for obtaining the anatomy generation labels.
+1) SynthStrip: skull-stripping; saving the stripped T1 as the supervision ground truth;
+2) SynthSeg: get segmentation labels;
+3) Merge left & right labels for obtaining the anatomy generation labels.
 """
 
 import os, sys
@@ -24,9 +23,7 @@ root_dir = '/path/to/your/dataset'
 img_dir = os.path.join(root_dir, 'T1_orig') 
 
 # pre-processing
-img_strip_save_dir = utils.make_dir(os.path.join(root_dir, 'T1')) 
-synthsr_save_dir = utils.make_dir(os.path.join(root_dir, 'synthsr'))
-synthstrip_save_dir = utils.make_dir(os.path.join(root_dir, 'synthstrip'))
+img_strip_save_dir = utils.make_dir(os.path.join(root_dir, 'T1'))
 mask_save_dir = utils.make_dir(os.path.join(root_dir, 'brainmask'))
 
 # obtaining the anatomy labels 
@@ -41,19 +38,11 @@ subjs.sort()
 for i, name in enumerate(subjs): 
     if name.startswith('sub-') and (name.endswith('.nii') or name.endswith('.nii.gz')):
         basename = name.split('.')[0]
-        print('Now processing: %s (%d/%d)' % (name, i+1, len(subjs)))
-
-        if not os.path.isfile(os.path.join(synthsr_save_dir, basename + '.nii')):
-            print('  synthsr-ing')
-            os.system('mri_synthsr' + ' --i ' + os.path.join(img_dir, name) + ' --o ' + os.path.join(synthsr_save_dir, basename + '.nii'))
+        print('Now processing: %s (%d/%d)' % (name, i+1, len(subjs))) 
 
         if not os.path.isfile(os.path.join(img_strip_save_dir, basename + '.nii')):
             print('  synthstrip-ing')
-            os.system('mri_synthstrip' + ' -i ' + os.path.join(synthsr_save_dir, basename + '.nii') + ' -o ' + os.path.join(synthstrip_save_dir, basename + '.nii') + ' -m ' + os.path.join(mask_save_dir, basename + '.nii'))
-            mask, aff = utils.MRIread(os.path.join(mask_save_dir, basename + '.nii'))
-            img, aff = utils.MRIread(os.path.join(img_dir, name))
-            img *= mask # skull-stripping
-            utils.MRIwrite(img, aff, os.path.join(img_strip_save_dir, basename + '.nii'))
+            os.system('mri_synthstrip' + ' -i ' + os.path.join(img_dir, basename + '.nii') + ' -o ' + os.path.join(img_strip_save_dir, basename + '.nii') + ' -m ' + os.path.join(mask_save_dir, basename + '.nii'))
 
         if not os.path.isfile(os.path.join(synthseg_save_dir, basename + '.nii')):
             print('  synthseg-ing & resampling')
