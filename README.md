@@ -14,7 +14,9 @@
 
 ## News
 
-[06/17/2024] Check out our newest MICCAI2024 work [here](https://github.com/peirong26/PEPSI) on a contrastic-agnosic model for images with abnormalities with pathology-encoded modeling.
+[02/26/2025] Check out our latest CVPR'2025 work [here](https://github.com/peirong26/UNA) on synthesizing normal anatomy from diseased inputs via fluid-driven anomaly randomization.
+
+[06/17/2024] Check out our recent MICCAI'2024 work [here](https://github.com/peirong26/PEPSI) on a contrastic-agnosic model for images with abnormalities with pathology-encoded modeling.
 
 
 ## Environment
