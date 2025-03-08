@@ -38,11 +38,13 @@ pip install -r requirements.txt
   <img src="./assets/data_gen.png" alt="drawing", width="850"/>
 </p>
 
+Please download Brain-ID pre-trained weights (brain_id_pretrained.pth), and the provided example generation images (as subfolder 'synth') in this [Google Drive folder](https://drive.google.com/drive/folders/1vuNu2dt-YdBCRW1E4gJtUsi0b_BcX6S_?usp=sharing), and move them into the './assets' folder.
+
 ```
 cd /path/to/brain-id
 python scripts/demo_synth.py
 ```
-You could customize your own data generator in `cfgs/demo_synth.yaml`.
+You could customize your own data generator in `cfgs/test/demo_synth.yaml`. The default output saving folder will be `outs/demo_synth`.
 
 
 ### Playing with Brain-ID Synthesizer and Feature Extractor

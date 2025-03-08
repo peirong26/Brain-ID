@@ -8,6 +8,8 @@ task: sr
 split: train
 dataset_name: {'train': synth_id, 'test': synth_id}
 
+## saving paths 
+out_dir: outs/demo_synth
 
 # augmentation params
  
