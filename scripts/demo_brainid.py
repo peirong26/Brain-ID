@@ -13,7 +13,7 @@ from utils.misc import viewVolume, make_dir
 device = torch.cuda.current_device() if torch.cuda.is_available() else 'cpu'
 
 
-ckp_path = 'assets/brainid_pretrained.pth'
+ckp_path = 'assets/brain_id_pretrained.pth'
 imgs = {
     'T1w': 'assets/T1w.nii.gz',
     'FLAIR': 'assets/FLAIR.nii.gz',
