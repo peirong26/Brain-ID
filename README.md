@@ -14,6 +14,8 @@
 
 ## News
 
+[09/02/2025] We just released a multi-modal foundation model for human brain imaging based on Brain-ID generator. Check out the preprint [here](https://arxiv.org/abs/2509.00549).
+
 [02/26/2025] Check out our latest CVPR'2025 work [here](https://github.com/peirong26/UNA) on synthesizing normal anatomy from diseased inputs via fluid-driven anomaly randomization.
 
 [06/17/2024] Check out our recent MICCAI'2024 work [here](https://github.com/peirong26/PEPSI) on a contrastic-agnosic model for images with abnormalities with pathology-encoded modeling.
